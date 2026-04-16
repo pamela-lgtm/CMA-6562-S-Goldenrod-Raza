@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rental Pricing Analysis — 6562 S. Goldenrod Rd, Unit 80A</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #008C82;
+    --teal-dark: #006B62;
+    --teal-light: #E6F4F3;
+    --teal-mid: #C2E4E1;
+    --gold: #D4AF50;
+    --gold-light: #FBF5E0;
+    --dark: #1A1A1A;
+    --mid: #444444;
+    --muted: #7A7A7A;
+    --border: #E0E0E0;
+    --bg: #FAFAF8;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--teal-dark);
+    padding: 48px 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gold);
+  }
+
+  .header-brand {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 300;
+    color: #FFFFFF;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .header-address {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.03em;
+  }
+
+  .header-date {
+    position: absolute;
+    top: 48px; right: 60px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.06em;
+    text-align: right;
+  }
+
+  /* MAIN */
+  .main { max-width: 860px; margin: 0 auto; padding: 50px 40px 80px; }
+
+  /* PROPERTY SNAPSHOT */
+  .snapshot {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--teal);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+
+  .snapshot-item {
+    padding: 0 20px 0 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .snapshot-item:last-child { border-right: none; padding-right: 0; padding-left: 20px; }
+  .snapshot-item:first-child { padding-left: 0; }
+
+  .snap-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .snap-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--teal-dark);
+  }
+
+  .snap-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* SECTION */
+  .section { margin-bottom: 44px; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal);
+    border-bottom: 1px solid var(--teal-mid);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+  }
+
+  /* RECOMMENDATION BOX */
+  .rec-box {
+    background: var(--teal-dark);
+    border-radius: 4px;
+    padding: 36px 40px;
+    margin-bottom: 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .rec-box::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--gold);
+  }
+
+  .rec-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .rec-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: #FFFFFF;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .rec-range {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 20px;
+  }
+
+  .rec-body {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  /* STRATEGY CARDS */
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 44px;
+  }
+
+  .strat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 26px;
+  }
+
+  .strat-card.featured {
+    border-color: var(--teal);
+    background: var(--teal-light);
+  }
+
+  .strat-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  .strat-badge.recommended { background: var(--teal); color: white; }
+  .strat-badge.fallback { background: var(--gold-light); color: #7A5A00; border: 1px solid var(--gold); }
+
+  .strat-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--teal-dark);
+    margin-bottom: 8px;
+  }
+
+  .strat-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+
+  .strat-body {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.65;
+  }
+
+  /* COMP TABLE */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .comp-table thead tr {
+    background: var(--dark);
+  }
+
+  .comp-table thead th {
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .comp-table tbody tr {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .comp-table tbody tr:nth-child(even) { background: var(--bg); }
+  .comp-table tbody tr:hover { background: var(--teal-light); }
+
+  .comp-table td {
+    padding: 12px 14px;
+    color: var(--mid);
+    vertical-align: middle;
+  }
+
+  .comp-table td:first-child { color: var(--dark); font-weight: 500; }
+
+  .status-leased {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    background: #E6F4F3;
+    color: var(--teal-dark);
+  }
+
+  .status-active {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    background: var(--gold-light);
+    color: #7A5A00;
+    border: 1px solid #E8D080;
+  }
+
+  .flag-row td { background: #FFF8E6 !important; }
+
+  .flag-note {
+    font-size: 11px;
+    color: #9A6E00;
+    font-style: italic;
+    margin-top: 3px;
+  }
+
+  .sp100 { color: var(--teal-dark); font-weight: 500; }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: var(--gold-light);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+  }
+
+  .insight-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7A5A00;
+    margin-bottom: 6px;
+  }
+
+  .insight-body {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.65;
+  }
+
+  /* WARNING BOX */
+  .warning {
+    background: #FEF3F2;
+    border-left: 3px solid #E24B4A;
+    border-radius: 0 4px 4px 0;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+  }
+
+  .warning-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #A32D2D;
+    margin-bottom: 6px;
+  }
+
+  .warning-body {
+    font-size: 13px;
+    color: #6B3030;
+    line-height: 1.65;
+  }
+
+  /* MARKET STATS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--teal-dark);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-sub {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* VACANCY COST */
+  .vacancy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .vacancy-table thead tr { background: #FEF3F2; }
+  .vacancy-table thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #A32D2D;
+  }
+
+  .vacancy-table tbody tr { border-bottom: 1px solid var(--border); }
+  .vacancy-table tbody tr:nth-child(even) { background: #FFFBFB; }
+  .vacancy-table td { padding: 11px 14px; color: var(--mid); }
+  .vacancy-table td:first-child { color: var(--dark); font-weight: 500; }
+  .vacancy-table td.highlight { color: #A32D2D; font-weight: 500; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--dark);
+    padding: 32px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--white);
+  }
+
+  .footer-brand span { color: var(--gold); }
+
+  .footer-info {
+    text-align: right;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+  }
+
+  .footer-info a { color: var(--gold); text-decoration: none; }
+
+  .disclaimer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 20px 60px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  @media print {
+    body { background: white; }
+    .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .rec-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-date">Prepared April 16, 2026<br>Verandah Properties, LLC</div>
+  <div class="header-brand">Verandah Properties &nbsp;·&nbsp; Rental Pricing Analysis</div>
+  <div class="header-title">Rental Market Analysis</div>
+  <div class="header-address">6562 S. Goldenrod Road, Unit 80A &nbsp;·&nbsp; Orlando, FL 32822 &nbsp;·&nbsp; Carter Glen</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- PROPERTY SNAPSHOT -->
+  <div class="snapshot">
+    <div class="snapshot-item">
+      <div class="snap-label">Property Type</div>
+      <div class="snap-value">Condo</div>
+      <div class="snap-sub">Carter Glen Community</div>
+    </div>
+    <div class="snapshot-item">
+      <div class="snap-label">Bedrooms / Baths</div>
+      <div class="snap-value">2 / 2</div>
+      <div class="snap-sub">Full bathrooms</div>
+    </div>
+    <div class="snapshot-item">
+      <div class="snap-label">Square Footage</div>
+      <div class="snap-value">1,200</div>
+      <div class="snap-sub">Heated sq ft</div>
+    </div>
+    <div class="snapshot-item">
+      <div class="snap-label">Year Built</div>
+      <div class="snap-value">2015</div>
+      <div class="snap-sub">Single-car garage</div>
+    </div>
+    <div class="snapshot-item">
+      <div class="snap-label">Status</div>
+      <div class="snap-value" style="color: var(--teal);">Vacant</div>
+      <div class="snap-sub">Ready to market</div>
+    </div>
+  </div>
+
+  <!-- PRICING RECOMMENDATION -->
+  <div class="rec-box">
+    <div class="rec-eyebrow">Verandah Pricing Recommendation</div>
+    <div class="rec-headline">$1,950 / mo</div>
+    <div class="rec-range">Recommended range: $1,850 – $1,950 &nbsp;·&nbsp; Start at $1,950</div>
+    <div class="rec-body">
+      Based on current market data for comparable 2BR/2BA units in Carter Glen and the immediate South Goldenrod corridor, we recommend listing at <strong style="color:white;">$1,950 per month</strong> — the top of the active and leased comp range. Given the property's 2015 build year, move-in ready condition, and single-car garage, this is a defensible and competitive price that positions the unit attractively without leaving income on the table. If interest is strong in the first 7–10 days, the price holds. If we see limited traffic, a targeted adjustment to $1,900 will move the needle quickly. We do not anticipate needing to go below $1,900.
+    </div>
+  </div>
+
+  <!-- PRICING STRATEGY -->
+  <div class="section">
+    <div class="section-label">Pricing Strategy</div>
+    <div class="strategy-grid">
+      <div class="strat-card featured">
+        <div class="strat-badge recommended">Recommended Starting Price</div>
+        <div class="strat-price">$1,950</div>
+        <div class="strat-title">Top of market — strongest position</div>
+        <div class="strat-body">Matches the highest leased comp in the corridor. Justified by 2015 build year, garage, and move-in ready condition. Attracts the most qualified applicant pool immediately. If strong interest develops within 7–10 days, this price holds and you achieve maximum return.</div>
+      </div>
+      <div class="strat-card">
+        <div class="strat-badge fallback">Adjustment Price If Needed</div>
+        <div class="strat-price">$1,900</div>
+        <div class="strat-title">Mid-market — fast placement trigger</div>
+        <div class="strat-body">If showing interest is limited after 7–10 days at $1,950, a targeted reduction to $1,900 aligns with the median leased comp and will generate immediate applicant activity. This is a strategic move, not a concession — and it should be made quickly if needed. Speed matters. Every day vacant is income you cannot recover.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VACANCY WARNING -->
+  <div class="section">
+    <div class="section-label">The Cost of Getting Pricing Wrong</div>
+
+    <div class="warning">
+      <div class="warning-title">Overpricing is the single most expensive mistake a landlord can make</div>
+      <div class="warning-body">One of the comparable properties in this analysis — 6568 S. Goldenrod Rd — sat on the market for <strong>132 days</strong> before leasing. That is not a market problem. That is a pricing problem. The property was listed too high and the price was not reduced quickly enough. The owner paid for that decision with 4+ months of vacancy. At $1,900/month, that represents over <strong>$8,400 in lost income</strong> — income that can never be recovered, regardless of what rent is eventually achieved.</div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-title">The Verandah approach</div>
+      <div class="insight-body">We price accurately from day one and we move decisively if the market signals we need to adjust. We do not let pride of price cost our owners money. Every other leased comp in this analysis leased at <strong>100% of asking price</strong> with days on market ranging from 24 to 77 days. Accurate pricing works. Holding too long does not.</div>
+    </div>
+
+    <!-- VACANCY COST TABLE -->
+    <table class="vacancy-table">
+      <thead>
+        <tr>
+          <th>Vacancy Duration</th>
+          <th>Lost Income at $1,950/mo</th>
+          <th>Lost Income at $1,900/mo</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>14 days</td>
+          <td>$975</td>
+          <td>$950</td>
+          <td>Ideal — well-priced property</td>
+        </tr>
+        <tr>
+          <td>30 days (1 month)</td>
+          <td>$1,950</td>
+          <td>$1,900</td>
+          <td>Acceptable — minor adjustment may help</td>
+        </tr>
+        <tr>
+          <td>60 days (2 months)</td>
+          <td>$3,900</td>
+          <td>$3,800</td>
+          <td class="highlight">Warning — price reduction overdue</td>
+        </tr>
+        <tr>
+          <td>90 days (3 months)</td>
+          <td>$5,850</td>
+          <td>$5,700</td>
+          <td class="highlight">Significant loss — immediate action needed</td>
+        </tr>
+        <tr>
+          <td>132 days (comp example)</td>
+          <td>$8,580</td>
+          <td>$8,360</td>
+          <td class="highlight">What happened to the 132-day comp</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MARKET DATA -->
+  <div class="section">
+    <div class="section-label">Market Summary — South Goldenrod Corridor</div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Leased Comps</div>
+        <div class="stat-value">4</div>
+        <div class="stat-sub">Last 90 days</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Leased Price</div>
+        <div class="stat-value">$1,938</div>
+        <div class="stat-sub">All comps</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Median Leased</div>
+        <div class="stat-value">$1,925</div>
+        <div class="stat-sub">Excl. outlier</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">SP / LP Ratio</div>
+        <div class="stat-value">100%</div>
+        <div class="stat-sub">All leased comps</div>
+      </div>
+    </div>
+
+    <div class="insight" style="margin-bottom: 20px;">
+      <div class="insight-title">What the Active Listing tells us — and doesn't</div>
+      <div class="insight-body">There is one active listing currently on the market at $2,000 (6448 S. Goldenrod Rd, 23 days on market). While it is useful as a reference point, active listings reflect what owners <em>want</em> to receive — not what the market is actually paying. The leased comps are what matter. They show what qualified tenants are actually signing leases for. Every leased comp in this analysis closed at exactly 100% of asking price, with lease prices ranging from $1,900 to $2,000. The data supports $1,950 as a strong, justified starting position.</div>
+    </div>
+
+    <!-- COMP TABLE -->
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Address</th>
+          <th>Status</th>
+          <th>Yr Built</th>
+          <th>Sq Ft</th>
+          <th>List Price</th>
+          <th>Leased At</th>
+          <th>SP/LP</th>
+          <th>Days on Mkt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>6448 S. Goldenrod Rd #A</td>
+          <td><span class="status-active">Active</span></td>
+          <td>2006</td>
+          <td>1,200</td>
+          <td>$2,000</td>
+          <td>—</td>
+          <td>—</td>
+          <td>23</td>
+        </tr>
+        <tr>
+          <td>6524 S. Goldenrod Rd #61A</td>
+          <td><span class="status-leased">Leased</span></td>
+          <td>2014</td>
+          <td>1,200</td>
+          <td>$2,000</td>
+          <td>$2,000</td>
+          <td class="sp100">100%</td>
+          <td>77</td>
+        </tr>
+        <tr>
+          <td>6536 S. Goldenrod Rd #67A</td>
+          <td><span class="status-leased">Leased</span></td>
+          <td>2014</td>
+          <td>1,200</td>
+          <td>$1,900</td>
+          <td>$1,900</td>
+          <td class="sp100">100%</td>
+          <td>24</td>
+        </tr>
+        <tr>
+          <td>6680 S. Goldenrod Rd #136A</td>
+          <td><span class="status-leased">Leased</span></td>
+          <td>2007</td>
+          <td>1,200</td>
+          <td>$1,950</td>
+          <td>$1,950</td>
+          <td class="sp100">100%</td>
+          <td>30</td>
+        </tr>
+        <tr class="flag-row">
+          <td>
+            6568 S. Goldenrod Rd #A
+            <div class="flag-note">⚠ Overpriced at listing — slow to reduce. Cautionary example.</div>
+          </td>
+          <td><span class="status-leased">Leased</span></td>
+          <td>2015</td>
+          <td>1,200</td>
+          <td>$1,900</td>
+          <td>$1,900</td>
+          <td class="sp100">100%</td>
+          <td>132</td>
+        </tr>
+        <tr style="background: var(--teal-light); font-weight: 500;">
+          <td style="color: var(--teal-dark);">6562 S. Goldenrod Rd #80A — Subject Property</td>
+          <td><span class="status-active">Your Property</span></td>
+          <td>2015</td>
+          <td>1,200</td>
+          <td style="color: var(--teal-dark); font-weight: 600;">$1,950</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- WHY VERANDAH -->
+  <div class="section">
+    <div class="section-label">Why Pricing Strategy Matters — The Verandah Standard</div>
+    <div class="insight">
+      <div class="insight-title">Accurate pricing is the foundation of a successful tenancy</div>
+      <div class="insight-body">At Verandah Properties, we have managed properties in this market for over 20 years. We have seen every pricing mistake in the book — and the most common, most costly one is holding a price too long out of optimism rather than adjusting based on market signals. Our commitment to you is simple: we will price your property correctly from day one, monitor market response actively, and make data-driven adjustments without hesitation if the market tells us to. A well-priced, move-in ready property attracts a well-qualified tenant. That is the outcome we are always working toward — for you, and for every owner in our portfolio.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">Verandah <span>Properties</span>, LLC</div>
+  <div class="footer-info">
+    Pamela Syvertson, Owner &amp; Broker<br>
+    (407) 855-0331 &nbsp;·&nbsp; <a href="mailto:pamela@verandahproperties.com">pamela@verandahproperties.com</a><br>
+    <a href="https://www.verandahproperties.com">verandahproperties.com</a>
+  </div>
+</div>
+
+<div class="disclaimer">
+  This is an opinion of value and Comparative Market Analysis prepared by Verandah Properties, LLC and should not be considered an appraisal. Market data sourced from MLS as of April 16, 2026. In making any decision that relies upon this analysis, you should know that it has not been prepared in accordance with the Uniform Standards of Professional Appraisal Practice of the Appraisal Foundation. © 2026 Verandah Properties, LLC. All rights reserved.
+</div>
+
+</body>
+</html>
